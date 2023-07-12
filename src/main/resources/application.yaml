@@ -1,0 +1,72 @@
+# 应用服务 WEB 访问端口
+server:
+  port: 8080
+# 应用名称
+spring:
+  application:
+    name: test
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 10000
+    database: 0
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+  #cache
+  # 一般来说是不用配置的，Spring Cache 会根据依赖的包自行装配
+  cache:
+    type: redis
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    #配置连接池的相关的信息
+    druid:
+      web-stat-filter:
+        enabled: false
+      # 初始化大小
+      initial-size: 5
+      # 最小连接数
+      min-idle: 10
+      # 最大连接数
+      max-active: 20
+      # 获取连接时的最大等待时间
+      max-wait: 60000
+      # 一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      # 多久才进行一次检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+  quartz:
+    #持久化到数据库方式
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
+#  rabbitmq:
+#    host: 192.168.133.137
+#    port: 5672
+#    username: admin
+#    password: admin
+#    #虚拟host 可以不设置,使用server默认host
+#    virtual-host: test
+#    listener:
+#      direct:
+#        acknowledge-mode: manual
+#      simple:
+#        acknowledge-mode: manual
+#    publisher-returns: true
+#    publisher-confirm-type: simple
+#    template:
+#      mandatory: true
+rocketmq:
+  name-server: 192.168.133.137:9876
+  producer:
+    group: producer-demo1
+    #send-message-timeout: 60000
+  consumer:
+    group: consumer-demo1
